@@ -1,5 +1,6 @@
 const std = @import("std");
 const hello_world = @import("hello_world");
+const user = @import("user.zig");
 
 pub fn main() !void {
     // Prints to stderr, ignoring potential errors.
@@ -25,4 +26,6 @@ pub fn main() !void {
     const file_contents = try hello_world.read_file(allocator, path);
 
     std.debug.print("{any}\n", .{file_contents});
+    const u: user.User = user.User.init(1, "pedro", "email@gmail.com");
+    try u.print_name();
 }
