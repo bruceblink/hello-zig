@@ -25,6 +25,11 @@ pub fn read_file(allocator: std.mem.Allocator, path: []const u8) ![]u8 {
     return try file.readToEndAlloc(allocator, std.math.maxInt(usize));
 }
 
+fn add2(x: *u32) void {
+    const d: u32 = 2;
+    x.* = x.* + d;
+}
+
 test "basic add functionality" {
     try std.testing.expect(add(3, 7) == 10);
 }
@@ -32,4 +37,10 @@ test "basic add functionality" {
 test "array length" {
     const string_object = "This is an example of string literal in Zig";
     try std.testing.expect(string_object.len == 43);
+}
+
+test "use point" {
+    var x: u32 = 4;
+    add2(&x);
+    try std.testing.expect(x == 6);
 }
