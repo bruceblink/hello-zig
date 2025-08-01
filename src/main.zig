@@ -25,7 +25,7 @@ pub fn main() !void {
     const path = "file-io/test-list.txt";
     const file_contents = try hello_world.read_file(allocator, path);
 
-    std.debug.print("{any}\n", .{file_contents});
+    std.debug.print("{s}\n", .{file_contents});
     const u: user.User = user.User.init(1, "pedro", "email@gmail.com");
     try u.print_name();
 }
