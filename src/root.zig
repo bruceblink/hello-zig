@@ -52,3 +52,11 @@ test "anonymous struct literals" {
     try std.testing.expect(std.mem.eql(u8, eu.name, "Pedro"));
     try std.testing.expect(std.mem.eql(u8, eu.email, "someemail@gmail.com"));
 }
+
+test "type casting" {
+    const x: usize = 500;
+    const y = @as(u32, x);
+    try std.testing.expect(@TypeOf(y) == u32);
+    const z: f32 = @floatFromInt(x);
+    try std.testing.expect(@TypeOf(z) == f32);
+}
