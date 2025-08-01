@@ -28,3 +28,8 @@ pub fn read_file(allocator: std.mem.Allocator, path: []const u8) ![]u8 {
 test "basic add functionality" {
     try std.testing.expect(add(3, 7) == 10);
 }
+
+test "array length" {
+    const string_object = "This is an example of string literal in Zig";
+    try std.testing.expect(string_object.len == 43);
+}
