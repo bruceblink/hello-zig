@@ -1,0 +1,1 @@
+Now, if the file size can vary from one run to another, then, we can conclude that the value of the expression file_contents.len exposed in the example below can also vary from one run to another.

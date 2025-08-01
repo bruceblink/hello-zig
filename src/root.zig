@@ -19,6 +19,12 @@ pub fn add(a: i32, b: i32) i32 {
     return a + b;
 }
 
+pub fn read_file(allocator: std.mem.Allocator, path: []const u8) ![]u8 {
+    const file = try std.fs.cwd().openFile(path, .{});
+    defer file.close();
+    return try file.readToEndAlloc(allocator, std.math.maxInt(usize));
+}
+
 test "basic add functionality" {
     try std.testing.expect(add(3, 7) == 10);
 }

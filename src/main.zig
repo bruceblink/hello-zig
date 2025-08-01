@@ -17,4 +17,12 @@ pub fn main() !void {
     std.debug.print("{any}\n", .{s2}); // {24, 12, 6}
     const s3 = ns ** 2;
     std.debug.print("{any}\n", .{s3}); // { 48, 24, 12, 6, 48, 24, 12, 6 }
+
+    // read file
+    var gpa = std.heap.GeneralPurposeAllocator(.{}){};
+    const allocator = gpa.allocator();
+    const path = "file-io/test-list.txt";
+    const file_contents = try hello_world.read_file(allocator, path);
+
+    std.debug.print("{any}\n", .{file_contents});
 }
