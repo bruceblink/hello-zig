@@ -44,3 +44,11 @@ test "use point" {
     add2(&x);
     try std.testing.expect(x == 6);
 }
+
+test "anonymous struct literals" {
+    const user = @import("user.zig");
+
+    const eu = user.User{ .id = 1, .name = "Pedro", .email = "someemail@gmail.com" };
+    try std.testing.expect(std.mem.eql(u8, eu.name, "Pedro"));
+    try std.testing.expect(std.mem.eql(u8, eu.email, "someemail@gmail.com"));
+}
