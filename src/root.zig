@@ -79,3 +79,10 @@ test "destruct vector" {
     try std.testing.expect(b == 1);
     try std.testing.expect(c == 2);
 }
+
+test "use splat" {
+    const scalar: u32 = 5;
+    const result: @Vector(4, u32) = @splat(scalar);
+    const a: @Vector(4, u32) = .{ 5, 5, 5, 5 };
+    try std.testing.expect(@reduce(.And, result == a));
+}
