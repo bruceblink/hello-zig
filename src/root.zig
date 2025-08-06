@@ -60,3 +60,22 @@ test "type casting" {
     const z: f32 = @floatFromInt(x);
     try std.testing.expect(@TypeOf(z) == f32);
 }
+
+test "use vector" {
+    const ele_4 = @Vector(4, i32);
+    const a = ele_4{ 1, 2, 3, 4 };
+    const b = ele_4{ 5, 6, 7, 8 };
+    const c = a + b;
+    std.debug.print("Vector c is {any}\n", .{c});
+    const d = ele_4{ 6, 8, 10, 12 };
+    // c == d 返回的是 @Vector(4, bool)也就是4个true 不能这么断言，要使用下面的方式
+    try std.testing.expect(@reduce(.And, c == d));
+}
+
+test "destruct vector" {
+    const ele_4 = @Vector(4, i32);
+    const a = ele_4{ 1, 2, 3, 4 };
+    const b, const c, _, _ = a;
+    try std.testing.expect(b == 1);
+    try std.testing.expect(c == 2);
+}
