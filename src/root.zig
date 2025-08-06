@@ -104,3 +104,22 @@ test "use vector shuffle" {
 
     try std.testing.expect(@reduce(.And, res2 == d));
 }
+
+test "use vector select" {
+    const ele_4 = @Vector(4, i32);
+
+    // 向量必须拥有编译期已知的长度和类型
+    const a = ele_4{ 1, 2, 3, 4 };
+    const b = ele_4{ 5, 6, 7, 8 };
+
+    const pred = @Vector(4, bool){
+        true,
+        false,
+        false,
+        true,
+    };
+
+    const c = @select(i32, pred, a, b);
+    const res = @Vector(4, i32){ 1, 6, 7, 4 };
+    try std.testing.expect(@reduce(.And, c == res));
+}
