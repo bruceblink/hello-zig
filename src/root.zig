@@ -80,9 +80,27 @@ test "destruct vector" {
     try std.testing.expect(c == 2);
 }
 
-test "use splat" {
+test "use vector splat" {
     const scalar: u32 = 5;
     const result: @Vector(4, u32) = @splat(scalar);
     const a: @Vector(4, u32) = .{ 5, 5, 5, 5 };
     try std.testing.expect(@reduce(.And, result == a));
+}
+
+test "use vector shuffle" {
+    const a = @Vector(7, u8){ 'o', 'l', 'h', 'e', 'r', 'z', 'w' };
+    const b = @Vector(4, u8){ 'w', 'd', '!', 'x' };
+
+    const mask1 = @Vector(5, i32){ 2, 3, 1, 1, 0 };
+    const res1: @Vector(5, u8) = @shuffle(u8, a, undefined, mask1);
+    // res1 的值是 hello
+    const c = @Vector(5, i32){ 'h', 'e', 'l', 'l', 'o' };
+    try std.testing.expect(@reduce(.And, res1 == c));
+    // Combining two vectors
+    const mask2 = @Vector(6, i32){ -1, 0, 4, 1, -2, -3 };
+    const res2: @Vector(6, u8) = @shuffle(u8, a, b, mask2);
+    // res2 的值是 world!
+    const d = @Vector(6, i32){ 'w', 'o', 'r', 'l', 'd', '!' };
+
+    try std.testing.expect(@reduce(.And, res2 == d));
 }
