@@ -53,3 +53,27 @@ test "MemoryPool uninitialized vs initialized" {
     _ = p1;
     _ = p3;
 }
+
+test "safe MemoryPool usage" {
+    var pool = std.heap.MemoryPool(u32).init(std.heap.page_allocator);
+    defer pool.deinit();
+
+    const p1 = try pool.create();
+    const p2 = try pool.create();
+    p2.* = 42;
+
+    const p3 = try pool.create();
+
+    const p2_addr = p2; // 保存地址用于比较
+    pool.destroy(p2);
+    // p2 = undefined; // 失效化（可选）
+
+    const p4 = try pool.create();
+    p4.* = 99; // 初始化
+
+    try std.testing.expect(p2_addr == p4);
+    try std.testing.expect(p4.* == 99);
+
+    _ = p1;
+    _ = p3;
+}
