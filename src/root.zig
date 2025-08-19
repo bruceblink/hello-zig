@@ -1,5 +1,6 @@
 //! By convention, root.zig is the root source file when making a library.
 const std = @import("std");
+const expect = @import("std.testing.expect");
 
 pub fn bufferedPrint() !void {
     // Stdout is for the actual output of your application, for example if you
@@ -122,4 +123,22 @@ test "use vector select" {
     const c = @select(i32, pred, a, b);
     const res = @Vector(4, i32){ 1, 6, 7, 4 };
     try std.testing.expect(@reduce(.And, c == res));
+}
+
+test "test defer1" {
+    var x: i16 = 5;
+    {
+        defer x += 2; // defer是在退出当前代码块时才执行，类比Go中的defer
+        try expect(x == 5);
+    } // defer x+= 2在这个位置执行,准确说应该是在这个{之前，上面的try之后
+    try expect(x == 7);
+}
+
+test "test multi defer" {
+    var x: f32 = 5;
+    {
+        defer x += 2; // 然后执行这个
+        defer x /= 2; // 先执行这个
+    } // 多个defer语句执行顺序是按照栈的出栈顺序来的
+    try expect(x == 4.5);
 }
