@@ -1,6 +1,6 @@
 //! By convention, root.zig is the root source file when making a library.
 const std = @import("std");
-const expect = @import("std.testing.expect");
+const expect = std.testing.expect;
 
 pub fn bufferedPrint() !void {
     // Stdout is for the actual output of your application, for example if you
@@ -46,14 +46,6 @@ test "use point" {
     try std.testing.expect(x == 6);
 }
 
-test "anonymous struct literals" {
-    const user = @import("user.zig");
-
-    const eu = user.User{ .id = 1, .name = "Pedro", .email = "someemail@gmail.com" };
-    try std.testing.expect(std.mem.eql(u8, eu.name, "Pedro"));
-    try std.testing.expect(std.mem.eql(u8, eu.email, "someemail@gmail.com"));
-}
-
 test "type casting" {
     const x: usize = 500;
     const y = @as(u32, x);
@@ -67,7 +59,6 @@ test "use vector" {
     const a = ele_4{ 1, 2, 3, 4 };
     const b = ele_4{ 5, 6, 7, 8 };
     const c = a + b;
-    std.debug.print("Vector c is {any}\n", .{c});
     const d = ele_4{ 6, 8, 10, 12 };
     // c == d 返回的是 @Vector(4, bool)也就是4个true 不能这么断言，要使用下面的方式
     try std.testing.expect(@reduce(.And, c == d));
