@@ -133,3 +133,13 @@ test "test multi defer" {
     } // 多个defer语句执行顺序是按照栈的出栈顺序来的
     try expect(x == 4.5);
 }
+
+fn increment(num: *u8) void {
+    num.* += 1;
+}
+
+test "test pointers" {
+    var x: u8 = 1;
+    increment(&x);
+    try expect(x == 2);
+}
