@@ -163,3 +163,21 @@ test "many-item pointers" {
     const first_elem_ptr_2: *u8 = @ptrCast(buffer_many_ptr);
     try expect(first_elem_ptr == first_elem_ptr_2);
 }
+
+fn sum(values: []const u8) usize {
+    var s: usize = 0;
+    for (values) |v| s += v;
+    return s;
+}
+
+test "slice1" {
+    const array = [_]u8{ 1, 2, 3, 4, 5 };
+    const slice = array[0..3];
+    try expect(sum(slice) == 6);
+}
+
+test "slice 2" {
+    const array = [_]u8{ 1, 2, 3, 4, 5 };
+    const slice = array[0..3];
+    try expect(*const [3]u8 == @TypeOf(slice));
+}
